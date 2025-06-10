@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Surpresa de Dia dos Namorados 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
       background: linear-gradient(135deg, #ffc6d0, #ff8fa3);
@@ -13,13 +13,14 @@
       margin: 0;
       overflow: hidden;
       height: 100vh;
+      position: relative;
     }
     .center-screen {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 999;
+      z-index: 10;
     }
     .start-btn {
       padding: 20px 40px;
@@ -29,10 +30,12 @@
       font-size: 1.5em;
       border-radius: 30px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: all 0.3s;
+      box-shadow: 0 0 10px rgba(255, 77, 136, 0.4);
     }
     .start-btn:hover {
-      background-color: #e63c76;
+      background-color: #e6396d;
+      transform: scale(1.05);
     }
     .mensagem, .contador, .pedido {
       font-size: 2em;
@@ -44,7 +47,10 @@
       left: 50%;
       transform: translate(-50%, -50%);
       max-width: 90%;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.05);
     }
     .mensagem.show, .contador.show, .pedido.show {
       opacity: 1;
@@ -52,7 +58,6 @@
     .pedido img {
       max-width: 320px;
       border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
       margin-top: 20px;
     }
     .heart {
@@ -62,7 +67,7 @@
       background: #ff4d88;
       transform: rotate(45deg);
       animation: floatUp 10s linear infinite;
-      opacity: 0.7;
+      opacity: 0.6;
     }
     .heart::before,
     .heart::after {
@@ -80,106 +85,49 @@
       50% { opacity: 0.7; }
       100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
     }
+    button {
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Tela inicial com botão -->
   <div id="startScreen" class="center-screen">
     <button class="start-btn" onclick="iniciar()">💖 Clique aqui para começar 💖</button>
   </div>
 
-  <!-- Conteúdo oculto inicialmente -->
   <div id="msg1" class="mensagem">💘 Feliz Dia dos Namorados! 💘</div>
   <div id="msg2" class="mensagem">🤔 Ué, mas a gente namora?</div>
   <div id="msg3" class="mensagem">😳 Hmmm, me diz você então...</div>
   <div id="contador" class="contador"></div>
   <div id="pedido" class="pedido">
     <h1>Quer namorar comigo?</h1>
-    <img src="https://i.imgur.com/X82F1Iw.png" alt="Meme engraçado de pedido" />
-  
-    <div id="resposta" class="pedido" style="margin-top: 30px; display: none;">
-      <button onclick="responder(true)" style="padding: 15px 25px; font-size: 1.2em; border-radius: 20px; background-color: #ff4d88; color: white; border: none; margin: 10px;">Sim 💖</button>
-      <button onclick="responder(false)" style="padding: 15px 25px; font-size: 1.2em; border-radius: 20px; background-color: #ccc; color: black; border: none; margin: 10px;">Não 😢</button>
-    </div>
+    <img src="meme-sushi-final.png" alt="Pedido sushi" />
+  </div>
 
-    <div id="mensagemFinal" class="mensagem" style="font-size: 2em; color: #ff4d88;"></div>
+  <div id="resposta" class="pedido" style="margin-top: 30px; display: none;">
+    <button onclick="responder(true)" style="padding: 15px 25px; font-size: 1.2em; border-radius: 20px; background-color: #ff4d88; color: white; border: none; margin: 10px;">Sim 💖</button>
+    <button onclick="responder(false)" style="padding: 15px 25px; font-size: 1.2em; border-radius: 20px; background-color: #ddd; color: #333; border: none; margin: 10px;">Não 😢</button>
+  </div>
 
-    <!-- container para corações -->
-    <div id="explosaoCoracoes"></div>
-    </div>
+  <div id="mensagemFinal" class="mensagem" style="font-size: 2em;"></div>
+  <div id="explosaoCoracoes"></div>
 
-  <!-- Música local -->
-  <audio id="musica" src="musica.mp3" preload="auto" loop></audio>
+  <audio id="musica" src="musica.mp3" preload="auto" autoplay loop></audio>
 
-  <!-- Corações animados -->
-  <script>
-    for (let i = 0; i < 20; i++) {
-      let heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (8 + Math.random() * 5) + 's';
-      heart.style.width = heart.style.height = (10 + Math.random() * 20) + 'px';
-      document.body.appendChild(heart);
-    }
-  
-    // Mostrar botões após o pedido
-    pedido.classList.add('show');
-    setTimeout(() => {
-      document.getElementById('resposta').style.display = 'block';
-    }, 1000);
-    }
-
-    function responder(sim) {
-      document.getElementById('resposta').style.display = 'none';
-      if (sim) {
-        document.getElementById('mensagemFinal').innerText = "Então pode abrir a caixa... 💝";
-        document.getElementById('mensagemFinal').classList.add('show');
-        explodirCoracoes();
-      } else {
-        document.getElementById('mensagemFinal').innerText = "Tudo bem... 😔";
-        document.getElementById('mensagemFinal').classList.add('show');
-      }
-    }
-
-    function explodirCoracoes() {
-      const container = document.getElementById('explosaoCoracoes');
-      for (let i = 0; i < 50; i++) {
-        const heart = document.createElement('div');
-        heart.textContent = '💖';
-        heart.style.position = 'absolute';
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.top = Math.random() * 100 + 'vh';
-        heart.style.fontSize = (Math.random() * 24 + 16) + 'px';
-        heart.style.animation = 'cair 2s ease-out forwards';
-        container.appendChild(heart);
-        setTimeout(() => container.removeChild(heart), 2000);
-      }
-    }
-
-    const style = document.createElement('style');
-    style.textContent = \`
-    @keyframes cair {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(100px) scale(0.5); opacity: 0; }
-    }\`;
-    document.head.appendChild(style);
-  </script>
-
-  <!-- Lógica de sequência -->
   <script>
     const msg1 = document.getElementById('msg1');
     const msg2 = document.getElementById('msg2');
     const msg3 = document.getElementById('msg3');
     const contador = document.getElementById('contador');
     const pedido = document.getElementById('pedido');
+    const resposta = document.getElementById('resposta');
+    const mensagemFinal = document.getElementById('mensagemFinal');
     const musica = document.getElementById('musica');
-    const startScreen = document.getElementById('startScreen');
 
     function iniciar() {
-      startScreen.remove();
-      musica.play().catch(() => { console.log('Autoplay bloqueado.') });
-
+      document.getElementById('startScreen').remove();
+      musica.play().catch(() => { console.log("Autoplay bloqueado"); });
       setTimeout(() => { msg1.classList.add('show'); }, 1000);
       setTimeout(() => { msg1.classList.remove('show'); msg2.classList.add('show'); }, 5000);
       setTimeout(() => { msg2.classList.remove('show'); msg3.classList.add('show'); }, 9500);
@@ -199,26 +147,22 @@
           clearInterval(interval);
           contador.classList.remove('show');
           pedido.classList.add('show');
+          setTimeout(() => {
+            resposta.style.display = 'block';
+          }, 1000);
         }
       }, 1000);
     }
-  
-    // Mostrar botões após o pedido
-    pedido.classList.add('show');
-    setTimeout(() => {
-      document.getElementById('resposta').style.display = 'block';
-    }, 1000);
-    }
 
     function responder(sim) {
-      document.getElementById('resposta').style.display = 'none';
+      resposta.style.display = 'none';
       if (sim) {
-        document.getElementById('mensagemFinal').innerText = "Então pode abrir a caixa... 💝";
-        document.getElementById('mensagemFinal').classList.add('show');
+        mensagemFinal.innerText = "Então pode abrir a caixa... 💝";
+        mensagemFinal.classList.add('show');
         explodirCoracoes();
       } else {
-        document.getElementById('mensagemFinal').innerText = "Tudo bem... 😔";
-        document.getElementById('mensagemFinal').classList.add('show');
+        mensagemFinal.innerText = "Nem queria mesmo 😤";
+        mensagemFinal.classList.add('show');
       }
     }
 
@@ -238,12 +182,22 @@
     }
 
     const style = document.createElement('style');
-    style.textContent = \`
+    style.textContent = `
     @keyframes cair {
       0% { transform: translateY(0) scale(1); opacity: 1; }
       100% { transform: translateY(100px) scale(0.5); opacity: 0; }
-    }\`;
+    }`;
     document.head.appendChild(style);
+
+    // corações flutuantes no fundo
+    for (let i = 0; i < 20; i++) {
+      let heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (8 + Math.random() * 5) + 's';
+      heart.style.width = heart.style.height = (10 + Math.random() * 20) + 'px';
+      document.body.appendChild(heart);
+    }
   </script>
 </body>
 </html>
