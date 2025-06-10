@@ -110,7 +110,7 @@
     </div>
 
   <!-- Música local -->
-  <audio id="musica" src="musica.mp3" preload="auto" autoplay loop></audio>
+  <audio id="musica" src="musica.mp3" preload="auto" loop></audio>
 
   <!-- Corações animados -->
   <script>
@@ -137,7 +137,7 @@
         document.getElementById('mensagemFinal').classList.add('show');
         explodirCoracoes();
       } else {
-        document.getElementById('mensagemFinal').innerText = "Nem queria mesmo 😤";
+        document.getElementById('mensagemFinal').innerText = "Tudo bem... 😔";
         document.getElementById('mensagemFinal').classList.add('show');
       }
     }
@@ -178,7 +178,7 @@
 
     function iniciar() {
       startScreen.remove();
-      musica.play().then(() => {}).catch(() => { console.log('Autoplay bloqueado.') });
+      musica.play().catch(() => { console.log('Autoplay bloqueado.') });
 
       setTimeout(() => { msg1.classList.add('show'); }, 1000);
       setTimeout(() => { msg1.classList.remove('show'); msg2.classList.add('show'); }, 5000);
@@ -217,7 +217,7 @@
         document.getElementById('mensagemFinal').classList.add('show');
         explodirCoracoes();
       } else {
-        document.getElementById('mensagemFinal').innerText = "Nem queria mesmo 😤";
+        document.getElementById('mensagemFinal').innerText = "Tudo bem... 😔";
         document.getElementById('mensagemFinal').classList.add('show');
       }
     }
